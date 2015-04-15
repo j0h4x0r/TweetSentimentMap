@@ -96,7 +96,7 @@
                     "location (/Users/apple/.aws/credentials), and is in valid format.",
                     e);
         } */
-        credentials = new BasicAWSCredentials("AKIAJTI27NFKTTZPNDJA", "hyGbwLUU7JAATzXZFKM6ZVK2K+m0S4Rp85W1UYGE");
+        credentials = new BasicAWSCredentials("", "");
         newDb = new AmazonSimpleDBClient (credentials);
 	   
 		//sdb = new AmazonSimpleDBClient(credentials);
