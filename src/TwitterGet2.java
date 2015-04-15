@@ -2,6 +2,10 @@
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,7 +28,6 @@ import com.amazonaws.services.simpledb.model.DeleteDomainRequest;
 import com.amazonaws.services.simpledb.model.PutAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 
-
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -43,41 +46,56 @@ public class TwitterGet2 {
 	
 	public static String[] keywords;
 	public static int Query_Size;
-	//public static ConfigurationBuilder cb = new ConfigurationBuilder();
 	public static  AmazonSimpleDBClient sdb;
 	public String myDomain = "twitterMapDB";
 	public static String itemName ="0";
 	
-	/*
-	 * Load configuration from config
-	 */
 
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
+		Charset charset = Charset.forName("US-ASCII");
+		Path file = Paths.get("./TwitterOath.txt");
+		String consumerKey = "",consumerSecret = "",accessToken = "",accessTokenSecret = "";
+		try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
+		    consumerKey = reader.readLine();
+		    consumerKey = consumerKey.split("=")[1];
+		    consumerKey = consumerKey.trim();
+		    consumerSecret = reader.readLine();
+		    consumerSecret = consumerSecret.split("=")[1];
+		    consumerSecret = consumerSecret.trim();
+		    accessToken = reader.readLine();
+		    accessToken = accessToken.split("=")[1];
+		    accessToken = accessToken.trim();
+		    accessTokenSecret = reader.readLine();
+		    accessTokenSecret = accessTokenSecret.split("=")[1];
+		    accessTokenSecret = accessTokenSecret.trim();
+		} catch (IOException x) {
+		    System.err.format("IOException: %s%n", x);
+		}
 		
    	 ConfigurationBuilder cb = new ConfigurationBuilder();
      cb.setDebugEnabled(true)
-       .setOAuthConsumerKey("")
-       .setOAuthConsumerSecret("")
-       .setOAuthAccessToken("")
-       .setOAuthAccessTokenSecret("");
+       .setOAuthConsumerKey(consumerKey)
+       .setOAuthConsumerSecret(consumerSecret)
+       .setOAuthAccessToken(accessToken)
+       .setOAuthAccessTokenSecret(accessTokenSecret);
        
 			
-     AWSCredentials credentials = new BasicAWSCredentials("", "");
-     sdb = new AmazonSimpleDBClient (credentials);
+//     AWSCredentials credentials = new BasicAWSCredentials("", "");
+//     sdb = new AmazonSimpleDBClient (credentials);
 			
-//	        AWSCredentials credentials = null;
-//	        try {
-//	            credentials = new ProfileCredentialsProvider("New Profile").getCredentials();
-//	            sdb = new AmazonSimpleDBClient (credentials);
-//	        } catch (Exception e) {
-//	            throw new AmazonClientException(
-//	                    "Cannot load the credentials from the credential profiles file. " +
-//	                    "Please make sure that your credentials file is at the correct " +
-//	                    "location (/Users/apple/.aws/credentials), and is in valid format.",
-//	                    e);
-//	        }
+	        AWSCredentials credentials = null;
+	        try {
+	            credentials = new ProfileCredentialsProvider("New Profile").getCredentials();
+	            sdb = new AmazonSimpleDBClient (credentials);
+	        } catch (Exception e) {
+	            throw new AmazonClientException(
+	                    "Cannot load the credentials from the credential profiles file. " +
+	                    "Please make sure that your credentials file is at the correct " +
+	                    "location (/Users/apple/.aws/credentials), and is in valid format.",
+	                    e);
+	        }
 		
 				Region usEast1 = Region.getRegion(Regions.US_EAST_1);
 				sdb.setRegion(usEast1);
@@ -106,7 +124,7 @@ public class TwitterGet2 {
 						Double longtitude = null;
 						
 		            	if (tweet.getGeoLocation() != null) {
-
+			            	System.out.println("From GeoLocation:");
 			            	latitude = tweet.getGeoLocation().getLatitude();
 			            	longtitude = tweet.getGeoLocation().getLongitude();
 		            	}            	
@@ -182,7 +200,7 @@ public class TwitterGet2 {
 	    };
 	    
 	    TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
-	    twitterStream.addListener(listener);
+	    twitterStream.addListener(listener);	
 	    FilterQuery fil = new FilterQuery();
 	    String[] keywords = {"Music", "Spring", "Movie", "Sports", "Food"};
 	    fil.track(keywords);
