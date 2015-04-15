@@ -56,30 +56,24 @@ public class TwitterGet2 {
 		
 		Charset charset = Charset.forName("US-ASCII");
 		Path file = Paths.get("./TwitterOath.txt");
-		String consumerKey = "",consumerSecret = "",accessToken = "",accessTokenSecret = "";
+		String [] keys = {""};
 		try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
-		    consumerKey = reader.readLine();
-		    consumerKey = consumerKey.split("=")[1];
-		    consumerKey = consumerKey.trim();
-		    consumerSecret = reader.readLine();
-		    consumerSecret = consumerSecret.split("=")[1];
-		    consumerSecret = consumerSecret.trim();
-		    accessToken = reader.readLine();
-		    accessToken = accessToken.split("=")[1];
-		    accessToken = accessToken.trim();
-		    accessTokenSecret = reader.readLine();
-		    accessTokenSecret = accessTokenSecret.split("=")[1];
-		    accessTokenSecret = accessTokenSecret.trim();
+			for ( int i = 0; i < 4; i ++ ){
+			    keys[i] = reader.readLine();
+			    keys[i] = keys[i].split("=")[1];
+			    keys[i] = keys[i].trim();
+			}
+
 		} catch (IOException x) {
 		    System.err.format("IOException: %s%n", x);
 		}
 		
    	 ConfigurationBuilder cb = new ConfigurationBuilder();
      cb.setDebugEnabled(true)
-       .setOAuthConsumerKey(consumerKey)
-       .setOAuthConsumerSecret(consumerSecret)
-       .setOAuthAccessToken(accessToken)
-       .setOAuthAccessTokenSecret(accessTokenSecret);
+       .setOAuthConsumerKey(keys[0])
+       .setOAuthConsumerSecret(keys[1])
+       .setOAuthAccessToken(keys[2])
+       .setOAuthAccessTokenSecret(keys[3]);
        
 			
 //     AWSCredentials credentials = new BasicAWSCredentials("", "");
