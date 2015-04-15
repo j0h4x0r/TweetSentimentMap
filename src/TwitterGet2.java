@@ -58,13 +58,13 @@ public class TwitterGet2 {
 		
    	 ConfigurationBuilder cb = new ConfigurationBuilder();
      cb.setDebugEnabled(true)
-       .setOAuthConsumerKey("YQTSSkAuLLdsuUaEiRrAuJDcV")
-       .setOAuthConsumerSecret("Au4NFzqXMzeVAArf6LDixl1nAyFgwKrUixAghAgjZt4JJDApXb")
-       .setOAuthAccessToken("3050114289-XFFbL4Zrns6SZEH29QfREI43eJ17O7fSV1U8087")
-       .setOAuthAccessTokenSecret("Sr2YDKrNkB9e4anbGJpYbQP5n7AdbkNJIOykp49CpS2Ti");
+       .setOAuthConsumerKey("")
+       .setOAuthConsumerSecret("")
+       .setOAuthAccessToken("")
+       .setOAuthAccessTokenSecret("");
        
 			
-     AWSCredentials credentials = new BasicAWSCredentials("AKIAJTI27NFKTTZPNDJA", "hyGbwLUU7JAATzXZFKM6ZVK2K+m0S4Rp85W1UYGE");
+     AWSCredentials credentials = new BasicAWSCredentials("", "");
      sdb = new AmazonSimpleDBClient (credentials);
 			
 //	        AWSCredentials credentials = null;
