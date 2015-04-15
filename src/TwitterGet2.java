@@ -106,7 +106,7 @@ public class TwitterGet2 {
 						Double longtitude = null;
 						
 		            	if (tweet.getGeoLocation() != null) {
-			            	System.out.println("From GeoLocation:");
+
 			            	latitude = tweet.getGeoLocation().getLatitude();
 			            	longtitude = tweet.getGeoLocation().getLongitude();
 		            	}            	
